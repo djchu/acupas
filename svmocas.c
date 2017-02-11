@@ -1,5 +1,5 @@
-/*-----------------------------------------------------------------------
- * svmocas.c: Standalone application implementing the OCAS solver for
+/*------------------------------------------------------------------------------
+ * svmocas.c: Standalone application implementing the ACUPA and OCAS solvers for
  *   training linear SVM classifiers.
  *
  * Copyright (C) 2008, 2009, 2012 Vojtech Franc, xfrancv@cmp.felk.cvut.cz
@@ -9,7 +9,7 @@
  * modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation;
  * Version 3, 29 June 2007
- *-------------------------------------------------------------------- */
+ *---------------------------------------------------------------------------- */
 
 
 #include <stdio.h>
@@ -28,12 +28,11 @@
 
 void print_usage(void)
 {
-    printf("SVMOCAS: Optimized Cutting Plane Algorithm for Support Vector Machines\n"
+    printf("ACUPA: Accelerated CUtting Plane Algorithm for Support Vector Machines\n"
            "         Training binary linear SVM classifier from examples\n"
            "         " OCAS_VERSION "\n"
                                     "\n"
-                                    "   usage: svmocas [options] training_set_file testing_set_file\n"
-                                    "   usage: svmocas [options] example_file model_file\n"
+                                    "   usage: acupa [options] training_set_file testing_set_file\n"
                                     "\n"
                                     "Arguments:\n"
                                     "         example_file  file with training examples stored in SVM^light format\n"
@@ -62,13 +61,9 @@ void print_usage(void)
                                     "         -t float      halts if the solver time (loading time is not counted) exceeds\n"
                                     "                       the given time in seconds (default inf).\n\n"
                                     "Example:\n"
-                                    "  Train binary SVM classifier from ./data/riply_trn.light with regularization constant C = 10,\n"
-                                    "  bias switched on, verbosity switched off and save model to ./data/svmocas.model\n"
-                                    "    ./acupa -c 10 -b 0 -v 0 ./data/riply_trn.light ./data/svmocas.model \n"
-                                    "\n"
-                                    "  Compute testing error of the classifier stored in ./data/svmocas.model using testing\n"
-                                    "  examples from ./data/riply_tst.light and save predicted labels to ./data/riply_tst.pred\n"
-                                    "    ./linclassif -e -o ./data/riply_tst.pred ./data/riply_tst.light ./data/svmocas.model\n"
+                                    "  Train binary SVM classifier and compute testing error with regularization constant C = 10,\n"
+                                    "  bias switched off, verbosity switched off\n"
+                                    "    ./acupa -m 2 -c 10 -b 0 -v 0 ./data/riply_trn.light ./data/riply_tst.light \n"
                                     "\n"
            );
 }

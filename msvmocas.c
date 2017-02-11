@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------
- * msvmocas.c: Standalone application implementing the OCAS folver for 
+ * msvmocas.c: Standalone application implementing the ACUPAM and OCAM folver for 
  *   training multi-class linear SVM classifiers.
  *
  * This program is free software; you can redistribute it and/or
@@ -24,11 +24,11 @@
 
 void print_usage(void)
 {
-  printf("MSVMOCAS: Optimized Cutting Plane Algorithm for Support Vector Machines\n" 
+  printf("ACUPAM: Accelerated CUtting Plane Algorithm for Multiclass Support Vector Machines\n" 
          "          Training linear multi-class SVM classifier from examples\n"
          "          " OCAS_VERSION "\n"
          "\n"
-         "   usage: msvmocas [options] trainingset_file testingset_file\n"
+         "   usage: acupam [options] trainingset_file testingset_file\n"
          "\n"
          "Arguments:\n"
          "         example_file  file with training examples stored in SVM^light format\n"
@@ -56,7 +56,7 @@ void print_usage(void)
          "  Train multi-class SVM classifier from example file ./data/example4_train.light with\n"
          "  regularization constant set to C = 10, verbosity switched off and compute testing\n"
          "  error using testing example file from ./data/example4_test.light \n"
-         "    ./msvmocas -c 10 -v 0 ./data/example4_train.light ./data/example4_test.light\n"
+         "    ./acupam -m 2 -c 10 -v 0 ./data/example4_train.light ./data/example4_test.light\n"
          "\n"          
          );
 }

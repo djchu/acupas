@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------
- * libocas.c: Implementation of the OCAS solver for training
+ * libocas.c: Implementation of the ACUPA and OCAS solvers for training
  *            linear SVM classifiers.
  *
  *

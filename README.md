@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DESCRIPTION:
 ------------
 This package implements faster cutting algorithms for binary and multiclass linear SVM proposed in the following paper:
@@ -22,7 +21,3 @@ where data files are stored in SVM^{light} format.
 This code is based on LIBOCAS tools. So the usage is similar to LIBOCAS in options, in which '-m 1' chooses OCAS solver while '-m 2' chooses ACUPA solver. 
 
 This package was developed by Dejun Chu (djun.chu@gmail.com). Any suggestions, bug reports and improvements are welcome. 
-=======
-# acupas
-Faster Cutting Plane Algorithms for Linear SVM based on LIBOCAS tools.
->>>>>>> eb4f1bd624f446b26f769adca5d1354d14582fed

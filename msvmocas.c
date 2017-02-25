@@ -169,29 +169,11 @@ int main(int argc, char *argv[])
       recognized = 1;
     }
 
-    //*** Cross Validation mode ***
     if (strcmp(argv[i], "-V") == 0)
     {
         fprintf(stderr, "Not supported now.\n");
         goto clean_up;
-        /***
-        if(i+1 >= argc-2)
-        {
-            fprintf(stderr, "You have to specify a value after argument -V\n");
-            goto clean_up;
-        }
-        flag_cross_validation = 1;
-        nr_fold = atoi(argv[i+1]);
-        if(nr_fold<2)
-        {
-            fprintf(stderr, "n-fold cross validation: n must >= 2\n");
-            goto clean_up;
-        }
-        i++;
-        recognized = 1;
-        ***/
     }
-    //*** Cross Validation mode ***
 
     if (strcmp(argv[i], "-s") == 0)
     {

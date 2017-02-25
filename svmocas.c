@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
         }
 
         if (strcmp(argv[i], "-p") == 0)
-        { //线程数
+        {
             if(i+1 >= argc-2)
             {
                 fprintf(stderr,"You have to specify a value after argument -p\n");
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
         }
 
         if (strcmp(argv[i], "-s") == 0)
-        { // 割平面数
+        {
             if(i+1 >= argc-2)
             {
                 fprintf(stderr,"You have to specify a value after argument -s\n");
@@ -246,7 +246,7 @@ int main(int argc, char *argv[])
 
 
         if (strcmp(argv[i], "-m") == 0)
-        { // 线搜方法
+        {
             if(i+1 >= argc-2)
             {
                 fprintf(stderr,"You have to specify a value after argument -m\n");

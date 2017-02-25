@@ -48,7 +48,7 @@ double wtxi_mul(double *full_vec, int j, mxArray *sparse_mat, uint32_t col)
 }
 
 /*----------------------------------------------------------------------
-  evaluate testing function for multiclass SVM:
+  evaluation function for multiclass SVM:
 
   output = argmax_y(data_X'*W^y);
   ----------------------------------------------------------------------*/
@@ -59,7 +59,7 @@ double evaluate_multiclass(mxArray *tstX, double *tsty, int nData_tst)
     uint32_t i, j;
 
     for(i=0; i < nData_tst; i++)
-    {        
+    {
         max_dfce = LIBOCAS_MINUS_INF;
         for(j=0; j<nY; j++)
         {

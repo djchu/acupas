@@ -39,7 +39,7 @@ static uint32_t BufSize;
 static const double *get_col( uint32_t i)
 {
     return( &H[ BufSize*i ] );
-} 
+}
 
 /*----------------------------------------------------------------------
   Returns time of the day in seconds.
@@ -349,7 +349,7 @@ ocas_return_value_T svm_ocas_solver(
                 printf("acupaIter:%d\n",ocas.nIter);
                 fpinx = fopen("indexfile", "w"); // all random index in U saved in inxfile
                 fpbici = fopen("bicifile","w"); //save all bi and ci into file
-                fpbi = fopen("bifile","w");  //save all bi when compute grad at 0
+                fpbi = fopen("bifile","w");  //save all bi when compute deriv. at 0
             }
             LS_start_time = get_time();
 
@@ -368,7 +368,7 @@ ocas_return_value_T svm_ocas_solver(
             GradVal = B0;
 
             for(i=0; i< nData; i++)
-            {  // Choose Bi and Ci, and compute grad at 0.
+            {  // Choose Bi and Ci, and compute deriv. at 0.
                 Ci[i] = C*(1-old_output[i]);
                 Bi[i] = C*(old_output[i] - output[i]);
                 if(DEBUG)
@@ -392,7 +392,7 @@ ocas_return_value_T svm_ocas_solver(
                 //                if( (Bi[i] < 0 && val > 0) || (Bi[i] > 0 && val <= 0))
                 //                    GradVal += Bi[i];
                 if (Ci[i]>=0){
-                    if((Ci[i]==0) & (Bi[i]<0))  // To get sup g(0), Bi is omitted if Bi<0
+                    if((Ci[i]==0) & (Bi[i]<0))
                         continue;
                     GradVal += Bi[i];
                     //fprintf(fpbi,"%.10f ",Bi[i]);
@@ -463,12 +463,12 @@ ocas_return_value_T svm_ocas_solver(
                         }
                     }
                     else{ // GradVal>=0
-                        if(li>0)  // Get the result soon if li==0
+                        if(li>0)
                             GradVal += LIBOCAS_ABS(hpb[k]);
                         for(i=0; i<li; i++)
                             U[i] = L[i];
                         Ulength = li;
-                    }  // if GradVal<0 or GradVal>=0
+                    }
 
                     if(Ulength==0){
                         lam_k -= GradVal/A0;
@@ -488,7 +488,6 @@ ocas_return_value_T svm_ocas_solver(
 
             t1 = t;                /* new (best so far) W */
             t2 = t+MU*(1.0-t);   /* new cutting plane */
-            /*        t2 = t+(1.0-t)/10.0;   */
 
             /* update W to be the best so far solution */
             sq_norm_W = update_W( t1, user_data );
@@ -1363,7 +1362,7 @@ ocas_return_value_T msvm_ocas_solver(
             }
 
             //LS_start_time = get_time();
-            A0 = sq_norm_W - 2*dot_prod_WoldW + sq_norm_oldW;  // a is A0, d is B0
+            A0 = sq_norm_W - 2*dot_prod_WoldW + sq_norm_oldW;
             B0 = dot_prod_WoldW - sq_norm_oldW;
 
             // compute all the Bis and Cis(i.e., A and B below) to
@@ -1380,9 +1379,6 @@ ocas_return_value_T msvm_ocas_solver(
                             + (double)(y != y2));
                 }
             }
-
-            /* linesearch */
-            /*      new_x = msvm_linesearch_mex(A0,B0,A*C,B*C);*/
 
             grad_sum = B0;
             numLambda = 0;
@@ -1415,22 +1411,22 @@ ocas_return_value_T msvm_ocas_solver(
                     k_old = k;
                     k = U[inx];  // Random choose k \in U.
                     lam_old = lam_k;
-                    lam_k = Theta[k]; //lam_k = lambi[k];
+                    lam_k = Theta[k];
 
                     if(DEBUG)
                         fprintf(fpinx, "%d\t%d\t%lf\t%d\n",
-                                s, numLambda, lam_k, inx);  // print index
+                                s, numLambda, lam_k, inx);
 
                     int gi = 0, li = 0;
                     for(i=0; i<Ulength; i++){ // set G and L
                         double lambiUi = Theta[U[i]];
                         if(lambiUi >= lam_k){
                             G[gi] = U[i];
-                            gi++;   // gi is the number of G
+                            gi++;
                         }
                         else{
                             L[li] = U[i];
-                            li++;  // li is the number of L
+                            li++; 
                         }
                     }
 

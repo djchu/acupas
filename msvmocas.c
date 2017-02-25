@@ -1,10 +1,10 @@
 /*-----------------------------------------------------------------------
- * msvmocas.c: Standalone application implementing the ACUPAM and OCAM folver for 
+ * msvmocas.c: Standalone application implementing the ACUPAM and OCAM folver for
  *   training multi-class linear SVM classifiers.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public 
- * License as published by the Free Software Foundation; 
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
  *-------------------------------------------------------------------- */
 
 
@@ -24,7 +24,7 @@
 
 void print_usage(void)
 {
-  printf("ACUPAM: Accelerated CUtting Plane Algorithm for Multiclass Support Vector Machines\n" 
+  printf("ACUPAM: Accelerated CUtting Plane Algorithm for Multiclass Support Vector Machines\n"
          "          Training linear multi-class SVM classifier from examples\n"
          "          " OCAS_VERSION "\n"
          "\n"
@@ -41,15 +41,15 @@ void print_usage(void)
          "         -V n:         n-fold cross validation model.\n"
          "         -n int        use only first n examples for training. By default n equals to\n"
          "                       the number of examples in the example_file.\n"
-         "Optimization options:\n" 
+         "Optimization options:\n"
          "         -m [0,1,2]      solver to be used: 0 ... standard cutting plane (BMRM, SVM^perf)\n"
          "                                            1 ... OCAM (default 1).\n"
-	 "                                            2 ... ACUPA-M.\n"
+	       "                                            2 ... ACUPA-M.\n"
          "         -s int        cache size for cutting planes (default 2000).\n"
          "Stopping conditions:\n"
          "         -a float      absolute tolerance TolAbs: halt if QP-QD <= TolAbs (default 0).\n"
          "         -r float      relative tolerance TolRel: halt if QP-QD <= abs(QP)*TolRel (default 0.01).\n"
-         "         -q float      desired objective value QPValue: halt if QP <= QPValue (default 0).\n"         
+         "         -q float      desired objective value QPValue: halt if QP <= QPValue (default 0).\n"
          "         -t float      halts if the solver time (loading time is not counted) exceeds\n"
          "                       the given time in seconds (default inf).\n\n"
          "Example:\n"
@@ -57,7 +57,7 @@ void print_usage(void)
          "  regularization constant set to C = 10, verbosity switched off and compute testing\n"
          "  error using testing example file from ./data/example4_test.light \n"
          "    ./acupam -m 2 -c 10 -v 0 ./data/example4_train.light ./data/example4_test.light\n"
-         "\n"          
+         "\n"
          );
 }
 
@@ -111,9 +111,9 @@ int main(int argc, char *argv[])
   verb = 1;
 
   /*-----------------------------------------------------------
-    Process input arguments 
+    Process input arguments
   ------------------------------------------------------------*/
-  if(argc ==1 || strcmp(argv[1], "-h") == 0)  
+  if(argc ==1 || strcmp(argv[1], "-h") == 0)
   {
     print_usage();
     goto clean_up;
@@ -126,44 +126,44 @@ int main(int argc, char *argv[])
   }
 
 
-  for (i = 1; i < argc-2; i++)  
+  for (i = 1; i < argc-2; i++)
   {
     recognized = 0;
-    if (strcmp(argv[i], "-h") == 0)  
+    if (strcmp(argv[i], "-h") == 0)
     {
       print_usage();
       goto clean_up;
     }
 
-    if (strcmp(argv[i], "-c") == 0)  
+    if (strcmp(argv[i], "-c") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -c\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -c\n");
+        goto clean_up;
       }
-      C = atof(argv[i+1]); 
+      C = atof(argv[i+1]);
       if(C <=0)
-      { 
-        fprintf(stderr,"Parameter C must be geater than zero.\n"); 
-        goto clean_up; 
-      } 
+      {
+        fprintf(stderr,"Parameter C must be geater than zero.\n");
+        goto clean_up;
+      }
       i++;
       recognized = 1;
     }
 
-    if (strcmp(argv[i], "-n") == 0)  
+    if (strcmp(argv[i], "-n") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -n\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -n\n");
+        goto clean_up;
       }
-      nData = atol(argv[i+1]); 
+      nData = atol(argv[i+1]);
       if(nData <=0)
-      { 
-        fprintf(stderr,"A value after the argument -n must be greater than zero.\n"); 
-        goto clean_up; 
+      {
+        fprintf(stderr,"A value after the argument -n must be greater than zero.\n");
+        goto clean_up;
       }
       i++;
       recognized = 1;
@@ -193,119 +193,119 @@ int main(int argc, char *argv[])
     }
     //*** Cross Validation mode ***
 
-    if (strcmp(argv[i], "-s") == 0)  
+    if (strcmp(argv[i], "-s") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -s\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -s\n");
+        goto clean_up;
       }
-      BufSize = atol(argv[i+1]); 
+      BufSize = atol(argv[i+1]);
       if(nData <=0)
-      { 
-        fprintf(stderr,"A value after the argument -s must be greater than zero.\n"); 
-        goto clean_up; 
-      } 
+      {
+        fprintf(stderr,"A value after the argument -s must be greater than zero.\n");
+        goto clean_up;
+      }
       i++;
       recognized = 1;
     }
 
 
-    if (strcmp(argv[i], "-m") == 0)  
+    if (strcmp(argv[i], "-m") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -m\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -m\n");
+        goto clean_up;
       }
-      Method = atoi(argv[i+1]); 
+      Method = atoi(argv[i+1]);
       if(Method != 0 && Method != 1 && Method != 2)
-      { 
+      {
         fprintf(stderr,"A value after the argument -m must be 0, 1 or 2.\n");
-        goto clean_up; 
-      } 
+        goto clean_up;
+      }
       i++;
       recognized = 1;
     }
 
-    if (strcmp(argv[i], "-v") == 0)  
+    if (strcmp(argv[i], "-v") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -v\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -v\n");
+        goto clean_up;
       }
-      verb = atoi(argv[i+1]); 
+      verb = atoi(argv[i+1]);
       if(verb < 0 || verb > 1)
       {
-        fprintf(stderr,"A value after the argument -v must be either 0 or 1.\n"); 
-        goto clean_up;  
+        fprintf(stderr,"A value after the argument -v must be either 0 or 1.\n");
+        goto clean_up;
       }
-        
+
 
       i++;
       recognized = 1;
     }
 
-    if (strcmp(argv[i], "-a") == 0)  
+    if (strcmp(argv[i], "-a") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -a\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -a\n");
+        goto clean_up;
       }
-      TolAbs = atof(argv[i+1]); 
+      TolAbs = atof(argv[i+1]);
       if(TolAbs < 0)
-      { 
-        fprintf(stderr,"A value after the argument -a must be a positive scalar.\n"); 
-        goto clean_up; 
-      } 
+      {
+        fprintf(stderr,"A value after the argument -a must be a positive scalar.\n");
+        goto clean_up;
+      }
       i++;
       recognized = 1;
     }
 
-    if (strcmp(argv[i], "-r") == 0)  
+    if (strcmp(argv[i], "-r") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -r\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -r\n");
+        goto clean_up;
       }
-      TolRel = atof(argv[i+1]); 
+      TolRel = atof(argv[i+1]);
       if(TolRel < 0)
-      { 
-        fprintf(stderr,"A value after the argument -r must be a positive scalar.\n"); 
-        goto clean_up; 
-      } 
+      {
+        fprintf(stderr,"A value after the argument -r must be a positive scalar.\n");
+        goto clean_up;
+      }
       i++;
       recognized = 1;
     }
 
-    if (strcmp(argv[i], "-q") == 0)  
+    if (strcmp(argv[i], "-q") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -q\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -q\n");
+        goto clean_up;
       }
-      QPBound = atof(argv[i+1]); 
+      QPBound = atof(argv[i+1]);
       i++;
       recognized = 1;
     }
 
-    if (strcmp(argv[i], "-t") == 0)  
+    if (strcmp(argv[i], "-t") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -t\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -t\n");
+        goto clean_up;
       }
-      MaxTime = atof(argv[i+1]); 
+      MaxTime = atof(argv[i+1]);
       if(MaxTime <=0)
       {
-        fprintf(stderr,"A value after the argument -t must be a positive scalar.\n"); 
-        goto clean_up; 
-      } 
+        fprintf(stderr,"A value after the argument -t must be a positive scalar.\n");
+        goto clean_up;
+      }
       i++;
       recognized = 1;
     }
@@ -313,9 +313,9 @@ int main(int argc, char *argv[])
     if(recognized == 0)
     {
       fprintf(stderr,"Unknown input argument: %s\n", argv[i]);
-      goto clean_up;  
+      goto clean_up;
     }
-        
+
   }
 
   // training data
@@ -339,7 +339,7 @@ int main(int argc, char *argv[])
     goto clean_up;
 
   load_time = get_time() - load_time;
-  
+
   /* get examples' dimension */
   nDim = mxGetM(data_X);
 
@@ -393,7 +393,7 @@ int main(int argc, char *argv[])
              100.0*(double)mxGetNZMAX(data_X)/((double)nDim*(double)(mxGetN(data_X))));
     else
       printf("   density        : 100%% (full matrix representation used)\n");
-    
+
     printf("Setting:\n"
            "   C              : %f\n"
            "   # of examples  : %d\n"
@@ -419,9 +419,9 @@ int main(int argc, char *argv[])
     fprintf(stderr,"Not enough memory for matrix W.\n");
     goto clean_up;
   }
-    
+
   oldW = (double*)mxCalloc(nDim*nY,sizeof(double));
-  if(oldW == NULL) 
+  if(oldW == NULL)
   {
     fprintf(stderr,"Not enough memory for matrix oldW.");
     goto clean_up;
@@ -429,9 +429,9 @@ int main(int argc, char *argv[])
 
   /* allocate buffer for computing cutting plane */
   new_a = (double*)mxCalloc(nDim*nY,sizeof(double));
-  if(new_a == NULL) 
+  if(new_a == NULL)
   {
-    fprintf(stderr,"Not enough memory for auxciliary cutting plane buffer new_a.");  
+    fprintf(stderr,"Not enough memory for auxciliary cutting plane buffer new_a.");
     goto clean_up;
   }
 
@@ -442,9 +442,9 @@ int main(int argc, char *argv[])
     sparse_A.nz_dims = mxCalloc(BufSize,sizeof(uint32_t));
     sparse_A.index = mxCalloc(BufSize,sizeof(sparse_A.index[0]));
     sparse_A.value = mxCalloc(BufSize,sizeof(sparse_A.value[0]));
-    if(sparse_A.nz_dims == NULL || sparse_A.index == NULL || sparse_A.value == NULL) 
+    if(sparse_A.nz_dims == NULL || sparse_A.index == NULL || sparse_A.value == NULL)
     {
-        fprintf(stderr,"Not enough memory for cutting plane buffer sparse_A.");  
+        fprintf(stderr,"Not enough memory for cutting plane buffer sparse_A.");
         goto clean_up;
     }
 
@@ -473,23 +473,23 @@ int main(int argc, char *argv[])
     full_A = mxCalloc(BufSize*nDim*nY,sizeof(double));
     if( full_A == NULL )
     {
-      fprintf(stderr,"Not enough memory for cutting plane buffer full_A.");  
+      fprintf(stderr,"Not enough memory for cutting plane buffer full_A.");
       goto clean_up;
     }
 
     if(verb)
     {
       printf("Starting optimization:\n");
-    
+
       ocas = msvm_ocas_solver( C, data_y, nY, nData, TolRel, TolAbs, QPBound, MaxTime,BufSize, Method,
                                &msvm_full_compute_W, &msvm_update_W, &msvm_full_add_new_cut,
-                               &msvm_full_compute_output, &qsort_data, &ocas_print, 0); 
+                               &msvm_full_compute_output, &qsort_data, &ocas_print, 0);
     }
     else
     {
       ocas = msvm_ocas_solver( C, data_y, nY, nData, TolRel, TolAbs, QPBound, MaxTime,BufSize, Method,
                                &msvm_full_compute_W, &msvm_update_W, &msvm_full_add_new_cut,
-                               &msvm_full_compute_output, &qsort_data, &ocas_print_null, 0); 
+                               &msvm_full_compute_output, &qsort_data, &ocas_print_null, 0);
 
     }
 
@@ -521,7 +521,7 @@ int main(int argc, char *argv[])
            "   print_time     : %f[s]\n"
            "   ocas_time      : %f[s]\n"
            "   total_time     : %f[s]\n",
-           load_time, ocas.qp_solver_time, ocas.sort_time, ocas.output_time, 
+           load_time, ocas.qp_solver_time, ocas.sort_time, ocas.output_time,
            ocas.add_time, ocas.w_time, ocas.print_time, ocas.ocas_time, total_time);
 
     printf("Training error: %.4f%%\n", 100*(double)ocas.trn_err/(double)nData);
@@ -535,7 +535,7 @@ int main(int argc, char *argv[])
     goto clean_up;
   }
 
-  for(i=0; i < nDim; i++) 
+  for(i=0; i < nDim; i++)
   {
     for(j=0; j < nY; j++)
     {
@@ -565,7 +565,7 @@ clean_up:
   mxFree(test_fname);
 
   mxFree(sparse_A.nz_dims);
-  if( sparse_A.index !=NULL) 
+  if( sparse_A.index !=NULL)
   {
     for(i=0; i < BufSize; i++)
       if(sparse_A.index[i] != NULL)
@@ -578,10 +578,9 @@ clean_up:
     for(i=0; i < BufSize; i++)
       if(sparse_A.value[i] != NULL)
         mxFree(sparse_A.value[i]);
-    
+
     mxFree(sparse_A.value);
   }
 
   return(exitflag);
 }
-

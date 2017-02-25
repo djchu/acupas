@@ -2,13 +2,9 @@
  * svmocas.c: Standalone application implementing the ACUPA and OCAS solvers for
  *   training linear SVM classifiers.
  *
- * Copyright (C) 2008, 2009, 2012 Vojtech Franc, xfrancv@cmp.felk.cvut.cz
- *                    Soeren Sonnenburg, soeren.sonnenburg@first.fraunhofer.de
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation;
- * Version 3, 29 June 2007
  *---------------------------------------------------------------------------- */
 
 
@@ -353,7 +349,7 @@ int main(int argc, char *argv[])
             fprintf(stderr,"Unknown input argument: %s\n", argv[i]);
             goto clean_up;
         }
-        
+
     }
 
     /* load regularization constants from file if requested */
@@ -481,7 +477,7 @@ int main(int argc, char *argv[])
         fprintf(stderr,"Not enough memory for vector W.\n");
         goto clean_up;
     }
-    
+
     oldW = (double*)mxCalloc(nDim,sizeof(double));
     if(oldW == NULL)
     {
@@ -673,6 +669,3 @@ clean_up:
 
     return(exitflag);
 }
-
-
-

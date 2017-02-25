@@ -1,13 +1,13 @@
 /*-----------------------------------------------------------------------
- * linclassif.c: Implementation of linear classification rule classifying 
+ * linclassif.c: Implementation of linear classification rule classifying
  *  examples from the SVM^light format.
- *   
+ *
  * Copyright (C) 2008-2012 Vojtech Franc, xfrancv@cmp.felk.cvut.cz
  *              Soeren Sonnenburg, soeren.sonnenburg@first.fraunhofer.de
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public 
- * License as published by the Free Software Foundation; 
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
  *-------------------------------------------------------------------- */
 
 
@@ -26,7 +26,7 @@
 
 void print_usage(void)
 {
-  printf("LINCLASSIF: Predict labels by linear classication rule\n" 
+  printf("LINCLASSIF: Predict labels by linear classication rule\n"
          "          " OCAS_VERSION "\n"
          "\n"
          "   usage: linclass [options] example_file model_file\n"
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
   char *input_fname;
   char *output_fname;
   FILE *fid, *fout;
-  
+
   double *feat_val;
   uint32_t *feat_idx;
 
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
   /* default setting of input arguments*/
   verb = 0;
   print_error = 0;
-  output_type = 0;  
+  output_type = 0;
 
   /* Allocate memory */
   line = calloc(MODELFILE_MAXLINELEN, sizeof(char));
@@ -131,12 +131,12 @@ int main(int argc, char *argv[])
     fprintf(stderr,"Not enough memmory to allocate feat_val.\n");
     goto clean_up;
   }
-  
+
 
   /*-----------------------------------------------------------
-    Process input arguments 
+    Process input arguments
   ------------------------------------------------------------*/
-  if(argc ==1 || strcmp(argv[1], "-h") == 0)  
+  if(argc ==1 || strcmp(argv[1], "-h") == 0)
   {
     print_usage();
     goto clean_up;
@@ -149,66 +149,66 @@ int main(int argc, char *argv[])
   }
 
 
-  for (i = 1; i < argc-2; i++)  
+  for (i = 1; i < argc-2; i++)
   {
     recognized = 0;
-    if (strcmp(argv[i], "-h") == 0)  
+    if (strcmp(argv[i], "-h") == 0)
     {
       print_usage();
       goto clean_up;
     }
 
-    if (strcmp(argv[i], "-e") == 0)  
+    if (strcmp(argv[i], "-e") == 0)
     {
       print_error = 1;
       recognized = 1;
       continue;
     }
 
-    if (strcmp(argv[i], "-v") == 0)  
+    if (strcmp(argv[i], "-v") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -v\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -v\n");
+        goto clean_up;
       }
-      verb = atoi(argv[i+1]); 
+      verb = atoi(argv[i+1]);
       if(verb < 0 || verb > 1)
       {
-        fprintf(stderr,"A value after the argument -v must be either 0 or 1.\n"); 
-        goto clean_up;  
+        fprintf(stderr,"A value after the argument -v must be either 0 or 1.\n");
+        goto clean_up;
       }
-        
+
       i++;
       recognized = 1;
       continue;
     }
 
-    if (strcmp(argv[i], "-t") == 0)  
+    if (strcmp(argv[i], "-t") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a value after argument -t\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a value after argument -t\n");
+        goto clean_up;
       }
-      output_type = atoi(argv[i+1]); 
+      output_type = atoi(argv[i+1]);
       if(output_type != 0 && output_type != 1)
       {
-        fprintf(stderr,"A value after the argument -t must be either 0 or 1.\n"); 
-        goto clean_up;  
+        fprintf(stderr,"A value after the argument -t must be either 0 or 1.\n");
+        goto clean_up;
       }
-        
+
       i++;
       recognized = 1;
       continue;
     }
 
-    if (strcmp(argv[i], "-o") == 0)  
+    if (strcmp(argv[i], "-o") == 0)
     {
       if(i+1 >= argc-2)
       {
-        fprintf(stderr,"You have to specify a string after argument -o\n"); 
-        goto clean_up;  
+        fprintf(stderr,"You have to specify a string after argument -o\n");
+        goto clean_up;
       }
 
       len = strlen(argv[i+1]);
@@ -223,9 +223,9 @@ int main(int argc, char *argv[])
     if(recognized == 0)
     {
       fprintf(stderr,"Unknown input argument: %s\n", argv[i]);
-      goto clean_up;  
+      goto clean_up;
     }
-        
+
   }
 
   len = strlen(argv[argc-2]);
@@ -251,12 +251,12 @@ int main(int argc, char *argv[])
 
 
   /*----------------------------------------------------------------
-    Load classification rule which is either 
+    Load classification rule which is either
      vector [nDim x 1] + bias [1x1]
-    or 
+    or
      matrix [nDim x nY]
   -------------------------------------------------------------------*/
-  
+
   /* load W from model file */
   fid = fopen(model_fname, "r");
   if(fid == NULL) {
@@ -264,7 +264,7 @@ int main(int argc, char *argv[])
     perror("fopen error ");
     goto clean_up;
   }
-  
+
   if(verb)
   {
     printf("Analysing model file... ");
@@ -272,7 +272,7 @@ int main(int argc, char *argv[])
   }
 
   /* read the first line */
-  if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL ) 
+  if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL )
   {
     fprintf(stderr,"Empty example file.\n");
     goto clean_up;
@@ -294,7 +294,7 @@ int main(int argc, char *argv[])
   }
 
   go = 1;
-  while(go) 
+  while(go)
   {
     begptr = line;
 
@@ -315,14 +315,14 @@ int main(int argc, char *argv[])
       goto clean_up;
     }
 
-    if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL ) 
+    if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL )
     {
       go = 0;
     }
     else
       nLines++;
   }
-  
+
   if(verb)
     printf("done.\n"
            "Number of lines: %d\n"
@@ -352,7 +352,7 @@ int main(int argc, char *argv[])
     fseek(fid,0,SEEK_SET);
     for(i=0; i <= nDim; i++)
     {
-      if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL ) 
+      if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL )
       {
         fprintf(stderr,"Model file corrupted.\n");
         goto clean_up;
@@ -400,7 +400,7 @@ int main(int argc, char *argv[])
     fseek(fid,0,SEEK_SET);
     for(i=0; i < nDim; i++)
     {
-      if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL ) 
+      if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL )
       {
         fprintf(stderr,"Model file corrupted.\n");
         goto clean_up;
@@ -417,15 +417,15 @@ int main(int argc, char *argv[])
           goto clean_up;
         }
         begptr = endptr;
-        
-        
+
+
         W[LIBOCAS_INDEX(i,j,nDim)] = val;
       }
     }
     if(verb)
       printf("done.\n");
   }
-  
+
   fclose(fid);
 
 /*  printf("W0=%f, W = [ ", W0);*/
@@ -467,7 +467,7 @@ int main(int argc, char *argv[])
   }
 
   if(verb)
-  { 
+  {
     if(output_fname != NULL)
       printf("Classifying...");
     else
@@ -487,12 +487,12 @@ int main(int argc, char *argv[])
     fprintf(stderr,"Not enough memory for vector nClass.\n");
     goto clean_up;
   }
-  
+
 
   go = 1;
-  while(go) { 
-    
-    if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL ) 
+  while(go) {
+
+    if(fgets(line,LIBSLF_MAXLINELEN, fid) == NULL )
     {
       go = 0;
     }
@@ -500,8 +500,8 @@ int main(int argc, char *argv[])
     {
       line_cnt ++;
       nnzf = svmlight_format_parse_line(line, &label, feat_idx, feat_val);
-      
-      if(nnzf == -1) 
+
+      if(nnzf == -1)
       {
          fprintf(stderr,"Parsing error on line %ld .\n", line_cnt);
          fprintf(stderr,"Probably defective input file.\n");
@@ -541,7 +541,7 @@ int main(int argc, char *argv[])
             fprintf(fout,"+1\n");
           else
             fprintf(fout,"-1\n");
-            
+
         }
         else
           fprintf(fout,"%.20f\n", dfce);
@@ -581,7 +581,7 @@ int main(int argc, char *argv[])
 
       }
     }
-  }  
+  }
 
   if(verb)
   {
@@ -597,25 +597,25 @@ int main(int argc, char *argv[])
     printf("Per-class errors: ");
     if(binary_problem)
     {
-      printf("+1: %f%%(%ld/%ld) -1: %f%%(%ld/%ld)\n", 
+      printf("+1: %f%%(%ld/%ld) -1: %f%%(%ld/%ld)\n",
              100.0*(double)nClassErrors[0]/(double)nClass[0], nClassErrors[0],nClass[0],
              100.0*(double)nClassErrors[1]/(double)nClass[1], nClassErrors[1],nClass[1]);
     }
-    else 
+    else
     {
       for(i=0; i < nY; i++)
-        printf("%d: %f%%(%ld/%ld) ", i+1, 100.0*(double)nClassErrors[i]/(double)nClass[i], 
+        printf("%d: %f%%(%ld/%ld) ", i+1, 100.0*(double)nClassErrors[i]/(double)nClass[i],
                nClassErrors[i],nClass[i]);
       printf("\n");
-    } 
-  } 
+    }
+  }
 
 
   fclose(fid);
   fclose(fout);
 
   exitflag = 1;
-  
+
 clean_up:
 
   free(W);
@@ -627,6 +627,3 @@ clean_up:
 
   return(exitflag);
 }
-
-
-

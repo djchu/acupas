@@ -15,9 +15,9 @@ acupam [options] training_set_file testing_set_file
 
 where data files are stored in SVM^{light} format.
 
-This code is based on [LIBOCAS](http://cmp.felk.cvut.cz/~xfrancv/ocas/html/) tools. So the usage is similar to LIBOCAS in options, in which '-m 1' chooses OCAS solver while '-m 2' chooses ACUPA solver. 
+This code is based on [LIBOCAS](http://cmp.felk.cvut.cz/~xfrancv/ocas/html/) tools. So the usage is similar to LIBOCAS in options, in which '-m 1' chooses OCAS solver while '-m 2' chooses ACUPA solver.
 
 ## Contact
-This package was developed by Dejun Chu (djun.chu@gmail.com). Due to limited number of tests performed, some bugs may still remain. Any suggestions, bug reports and improvements are welcome. 
+This package was developed by Dejun Chu (djun.chu@gmail.com). Due to limited number of tests performed, some bugs may still remain. Any suggestions, bug reports and improvements are welcome.
 
 If this implementation helps your research, please cite the paper above.
